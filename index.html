@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Substitution Variables – SQL Oracle (Skema HR)</title>
+<style>
+:root{--bg:#f4f6fb;--c:#fff;--t:#1d2433;--m:#5b6477;--p:#c74634;--b:#e1e5ee;--ok:#1a7f4b;--bad:#c62828;--sub:#fdf1ef;--v:#fff0c2;--vt:#7a4b00;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#10131a;--c:#1a1f2b;--t:#e8ebf2;--m:#9aa3b5;--b:#2b3243;--p:#ff7a66;--ok:#4cd08a;--bad:#ff8080;--sub:#2a1f22;--v:#4a3b10;--vt:#ffd479}}
+*{box-sizing:border-box}html{scroll-padding-top:120px}body{margin:0;background:var(--bg);color:var(--t);font:15px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:linear-gradient(120deg,#8f2d1f,#c74634);color:#fff;padding:16px 16px 0;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header h1{margin:0;font-size:18px}header p{margin:2px 0 10px;font-size:12px;opacity:.88}
+nav{display:flex;gap:4px;overflow-x:auto}nav button{border:0;background:rgba(255,255,255,.16);color:#fff;padding:9px 14px;border-radius:8px 8px 0 0;font:600 14px inherit;cursor:pointer;white-space:nowrap}nav button.on{background:var(--bg);color:var(--p)}
+main{max-width:920px;margin:0 auto;padding:16px}.hide{display:none}
+h2{margin:26px 0 8px;font-size:20px;border-left:5px solid var(--p);padding-left:10px}h3{margin:16px 0 4px;font-size:16px;color:var(--p)}
+section,.card{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:6px 18px 16px;margin-bottom:14px}.card{padding:16px}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid var(--b);padding:5px 8px;text-align:left}th{background:var(--sub)}.sc{overflow-x:auto;margin:6px 0}
+pre{background:#0f172a;color:#e2e8f0;padding:10px 12px;border-radius:8px;overflow-x:auto;font:13px/1.5 ui-monospace,Consolas,monospace;margin:8px 0;white-space:pre-wrap}
+pre .v,.vv{background:#fbbf24;color:#3b2a00;border-radius:3px;padding:0 3px;font-weight:700}pre .n{background:#16a34a;color:#fff;border-radius:3px;padding:0 3px;font-weight:700}
+code{background:var(--sub);padding:1px 5px;border-radius:4px;font-size:13px}
+.box{background:var(--sub);border-left:4px solid var(--p);padding:8px 12px;border-radius:6px;margin:10px 0}
+.story{border-left:4px solid #f59e0b;background:var(--v);color:var(--t);padding:8px 12px;border-radius:6px;margin:8px 0;font-size:14px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}.toc a{padding:5px 11px;border:1px solid var(--b);border-radius:20px;text-decoration:none;color:var(--t);background:var(--c);font:600 13px inherit}
+.tag{background:var(--p);color:#fff;font-size:12px;font-weight:700;padding:2px 9px;border-radius:12px}
+textarea,input{width:100%;border:2px solid var(--b);border-radius:8px;padding:9px;font:14px ui-monospace,Consolas,monospace}textarea{background:#0f172a;color:#e2e8f0;resize:vertical;font-size:13px}input{background:var(--c);color:var(--t);margin-top:3px}
+textarea:focus,input:focus{outline:0;border-color:var(--p)}
+label{display:block;margin:8px 0;font-weight:600;font-size:13px}
+.pri{background:var(--p);color:#fff;border:0;padding:9px 16px;border-radius:8px;font:700 14px inherit;cursor:pointer;margin:8px 6px 8px 0}.sec{background:var(--c);color:var(--p);border:1px solid var(--p);padding:7px 12px;border-radius:8px;font:600 13px inherit;cursor:pointer;margin:8px 6px 8px 0}
+.dlg{border:1px dashed var(--p);border-radius:10px;padding:4px 12px;margin:8px 0;background:var(--sub)}.dlg>b{font-size:12px;color:var(--p)}
+.msg{padding:8px 12px;border-radius:8px;font-weight:600;margin:8px 0}.msg.ok{background:rgba(26,127,75,.14);color:var(--ok)}.msg.bad{background:rgba(198,40,40,.12);color:var(--bad)}
+.score{font-size:13px;color:var(--m);margin-bottom:8px}details{margin-top:8px}summary{cursor:pointer;font-weight:600;color:var(--p)}
+footer{text-align:center;color:var(--m);font-size:12px;padding:20px}footer b{display:block;color:var(--t);font-size:13px;margin-bottom:6px}
+canvas{width:100%;height:auto;border-radius:10px;display:block;background:#0f172a;margin:6px 0}.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px;color:var(--m)}.ctl .sec{margin:0;padding:4px 10px}.ctl input{width:130px;padding:0;margin:0;border:0}.ctl select{padding:3px;border-radius:6px;background:var(--c);color:var(--t);border:1px solid var(--b)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.chip{padding:5px 11px;border:1px solid var(--b);border-radius:20px;background:var(--c);color:var(--t);font:600 13px inherit;cursor:pointer}.chip.on{background:var(--p);color:#fff;border-color:var(--p)}.chip.ok{border-color:var(--ok);color:var(--ok)}.chip.bad{border-color:var(--bad);color:var(--bad)}.chip.on.ok,.chip.on.bad{color:#fff}
+mark{background:#ef4444;color:#fff;border-radius:3px;padding:0 2px}.tip{font-size:12px;color:var(--m);min-height:18px}
+</style>
+</head>
+<body>
+<header>
+<h1>Substitution Variables pada SQL Oracle</h1>
+<p>Basis Data · Skema HR · Variabel &amp; (single ampersand)</p>
+<nav><button data-t="teori" class="on">📘 Teori</button><button data-t="sim">🎬 Simulasi</button><button data-t="lab">🔬 Lab</button><button data-t="latihan">🎯 Latihan (20 soal)</button></nav>
+</header>
+<main>
+
+<div id="teori">
+<div class="toc"><a href="#s1">1 Definisi</a><a href="#s2">2 Kapan dipakai</a><a href="#s3">3 Aturan penulisan</a><a href="#s4">4 Tambahan: &amp;&amp;</a><a href="#s5">5 Jebakan</a></div>
+<section><h2>🎯 Tujuan</h2><p>Mahasiswa mampu menggunakan <b>Substitution Variable</b> sesuai kebutuhan dalam perintah SQL.</p></section>
+<section id="s1"><h2>1. Definisi</h2>
+<p><b>Substitution variable</b> (variabel substitusi) menyimpan sementara nilai yang di-inputkan pengguna. Ini fitur <b>Oracle SQL Developer</b> yang memungkinkan nilai dimasukkan <b>secara dinamis</b> ke dalam perintah SQL/PL-SQL: query “menunggu” input dulu sebelum dijalankan.</p>
+<p>Variabel diidentifikasi dengan karakter <code>&amp;</code> di depan namanya, misalnya <code>&amp;gaji</code>, <code>&amp;bag</code>.</p>
+<pre>SELECT employee_id, last_name, salary, department_id
+FROM employees
+WHERE employee_id = <span class="v">&amp;id_karyawan</span>;   -- Oracle bertanya: "Enter value for id_karyawan:" → 101</pre>
+<div class="box"><b>Analogi:</b> query biasa itu seperti formulir yang sudah terisi. Query dengan <code>&amp;</code> adalah formulir dengan kolom kosong yang diisi tiap kali dipakai.</div></section>
+<section id="s2"><h2>2. Kapan dipakai?</h2>
+<div class="sc"><table><tr><th>Kondisi nyata</th><th>Penjelasan</th></tr>
+<tr><td>Laporan dinamis</td><td>DBA membuat laporan dengan parameter input (tanggal, ID, rentang nilai).</td></tr>
+<tr><td>Skrip otomatisasi DBA</td><td>Skrip yang sama untuk berbagai departemen/schema tanpa edit manual.</td></tr>
+<tr><td>Testing query cepat</td><td>Menguji query dengan banyak nilai input tanpa mengubah SQL utama.</td></tr>
+<tr><td>Migrasi / maintenance</td><td>Skrip yang butuh input seperti nama tabel atau schema yang berbeda-beda.</td></tr></table></div>
+<h3>Mengapa diperlukan? (contoh E-Commerce)</h3>
+<p>🛒 <b>Pelanggan mencari produk</b>: satu query, nama produk berbeda tiap pencarian.<br>📦 <b>Admin melihat pesanan per periode</b>: satu script, hanya tanggal yang diganti.<br>👤 <b>Profil karyawan/pelanggan</b>: satu template, jutaan kemungkinan hasil berdasarkan ID.</p></section>
+<section id="s3"><h2>3. Aturan penulisan</h2>
+<div class="sc"><table><tr><th>Tipe nilai / posisi</th><th>Penulisan</th><th>Contoh</th></tr>
+<tr><td>Angka</td><td><code>&amp;var</code> tanpa kutip</td><td><code>salary &gt; &amp;gaji</code></td></tr>
+<tr><td>Teks / karakter</td><td><code>'&amp;var'</code> dalam kutip tunggal</td><td><code>job_id = '&amp;jab_kerja'</code></td></tr>
+<tr><td>Pola LIKE</td><td>kutip + wildcard <code>%</code></td><td><code>LIKE '&amp;hurufnya%'</code>, <code>LIKE '%&amp;hurufnya%'</code></td></tr>
+<tr><td>Dua nilai</td><td>dua variabel berbeda</td><td><code>BETWEEN &amp;nilaimin AND &amp;nilaimax</code></td></tr>
+<tr><td>Daftar IN</td><td>satu variabel per elemen</td><td><code>IN (&amp;man1, &amp;man2)</code></td></tr>
+<tr><td>Nama kolom</td><td>tanpa kutip</td><td><code>SELECT last_name, &amp;kolom1, &amp;kolom2</code></td></tr>
+<tr><td>Seluruh kondisi</td><td>tanpa kutip</td><td><code>WHERE &amp;kondisi</code> → isi <code>salary &gt; 2000</code></td></tr></table></div>
+<p>Variabel juga bisa dipakai bersama <b>JOIN</b> (mis. <code>WHERE d.department_id = &amp;dept_id</code>) dan <b>subquery</b>. Coba semuanya di tab <b>Simulasi</b>, <b>Lab</b>, dan <b>Latihan</b>.</p></section>
+<section id="s4"><h2>4. Tambahan: <code>&amp;&amp;</code> dan DEFINE</h2>
+<p>Materi slide memakai single ampersand (<code>&amp;</code>): Oracle bertanya setiap kali variabel muncul. Sebagai pengayaan, <code>&amp;&amp;var</code> bertanya <b>sekali</b> lalu nilainya disimpan selama sesi.</p>
+<pre>SELECT last_name, &amp;&amp;kolom FROM employees ORDER BY &amp;kolom;  -- kolom diminta sekali
+DEFINE gaji = 5000      -- set nilai manual (tanpa ditanya)
+UNDEFINE gaji           -- hapus variabel</pre></section>
+<section id="s5"><h2>5. Tips &amp; jebakan umum</h2>
+<p>• Lupa kutip pada teks: <code>job_id = &amp;jab_kerja</code> lalu mengisi IT_PROG → error <i>invalid identifier</i>.<br>• Nilai teks <b>case-sensitive</b>: <code>it_prog</code> tidak sama dengan <code>IT_PROG</code>.<br>• Nama variabel jangan memakai spasi; gunakan <code>_</code>.<br>• Ada karakter <code>&amp;</code> sungguhan di data? Gunakan <code>SET DEFINE OFF</code>.<br>• Input angka harus angka; isi “abc” pada <code>&amp;gaji</code> menimbulkan error.</p></section>
+</div>
+
+<div id="sim" class="hide"></div>
+
+<div id="lab" class="hide">
+<section><h2>🔬 Lab Substitusi</h2>
+<p style="margin:0 0 6px;color:var(--m);font-size:13px">Tulis SQL dengan variabel <code>&amp;nama</code>. Kolom input muncul otomatis; lihat hasil substitusinya seperti Oracle (old → new).</p>
+<textarea id="lq" rows="5" spellcheck="false">SELECT first_name, last_name, salary
+FROM employees
+WHERE job_id = '&amp;jab_kerja'
+AND salary > &amp;gaji</textarea>
+<div id="lv"></div><button class="pri" id="lb">▶ Substitusikan</button><button class="sec" id="lc">📋 Salin SQL</button><div id="lo"></div></section>
+</div>
+
+<div id="latihan" class="hide"><div class="score">4 soal dari slide “Solve the Problems with Substitution Variables”. Tulis jawabanmu, klik Periksa, lalu buka kunci untuk menjalankannya.</div></div>
+</main>
+<footer><b>Aplikasi oleh dosen pengampu Lazuardi Yudha Pradana, S.Kom., M.Kom.</b>Simulator memakai 32 baris EMPLOYEES, 27 DEPARTMENTS, dan 7 LOCATIONS (skema HR klasik) dengan mesin SQL mini di browser — bukan Oracle sungguhan. Mendukung substitusi &amp;, SELECT, WHERE (AND/OR/NOT/LIKE/IN/BETWEEN/IS NULL), JOIN … ON, subquery skalar, GROUP BY, ORDER BY.</footer>
+
+<script>
+let EXTRA={};const LCOLS=['location_id','city','country_id'],LOC=`1400,Southlake,US;1500,South San Francisco,US;1700,Seattle,US;1800,Toronto,CA;2400,London,UK;2500,Oxford,UK;2700,Munich,DE`.split(';').map((l,i)=>{const f=l.split(',');return{_i:i,location_id:+f[0],city:f[1],country_id:f[2]}});
+
+
+const MN=d=>String(d.getUTCDate()).padStart(2,'0')+'-'+['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][d.getUTCMonth()]+'-'+String(d.getUTCFullYear()%100).padStart(2,'0');
+class Dt{constructor(d){this.d=d}[Symbol.toPrimitive](h){return h=='number'?this.d/864e5:MN(this.d)}}
+const PD=s=>{const m=s.match(/^(\d+)-([a-z]{3})-(\d+)$/i),mo='JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC'.split(' ').indexOf(m[2].toUpperCase());let y=+m[3];if(m[3].length<=2)y+=y<50?2000:1900;return new Dt(new Date(Date.UTC(y,mo,+m[1])))};
+const DT=(x,n)=>new Dt(new Date(x.d.getTime()+n*864e5));
+const COLS=['employee_id','first_name','last_name','email','hire_date','job_id','salary','commission_pct','manager_id','department_id'];
+const DATA=`100,Steven,King,SKING,17-JUN-87,AD_PRES,24000,,,90;101,Neena,Kochhar,NKOCHHAR,21-SEP-89,AD_VP,17000,,100,90;102,Lex,De Haan,LDEHAAN,13-JAN-93,AD_VP,17000,,100,90;103,Alexander,Hunold,AHUNOLD,03-JAN-90,IT_PROG,9000,,102,60;104,Bruce,Ernst,BERNST,21-MAY-91,IT_PROG,6000,,103,60;105,David,Austin,DAUSTIN,25-JUN-97,IT_PROG,4800,,103,60;106,Valli,Pataballa,VPATABAL,05-FEB-98,IT_PROG,4800,,103,60;107,Diana,Lorentz,DLORENTZ,07-FEB-99,IT_PROG,4200,,103,60;108,Nancy,Greenberg,NGREENBE,17-AUG-94,FI_MGR,12008,,101,100;109,Daniel,Faviet,DFAVIET,16-AUG-94,FI_ACCOUNT,9000,,108,100;110,John,Chen,JCHEN,28-SEP-97,FI_ACCOUNT,8200,,108,100;114,Den,Raphaely,DRAPHEAL,07-DEC-94,PU_MAN,11000,,100,30;115,Alexander,Khoo,AKHOO,18-MAY-95,PU_CLERK,3100,,114,30;116,Shelli,Baida,SBAIDA,24-DEC-97,PU_CLERK,2900,,114,30;120,Matthew,Weiss,MWEISS,18-JUL-96,ST_MAN,8000,,100,50;124,Kevin,Mourgos,KMOURGOS,16-NOV-99,ST_MAN,5800,,100,50;141,Trenna,Rajs,TRAJS,17-OCT-95,ST_CLERK,3500,,124,50;184,Nandita,Sarchand,NSARCHAN,27-JAN-96,SH_CLERK,4200,,121,50;200,Jennifer,Whalen,JWHALEN,17-SEP-87,AD_ASST,4400,,101,10;201,Michael,Hartstein,MHARTSTE,17-FEB-96,MK_MAN,13000,,100,20;202,Pat,Fay,PFAY,17-AUG-97,MK_REP,6000,,201,20;145,John,Russell,JRUSSEL,01-OCT-96,SA_MAN,14000,.4,100,80;150,Peter,Tucker,PTUCKER,30-JAN-97,SA_REP,10000,.3,145,80;178,Kimberly,Grant,KGRANT,24-MAY-99,SA_REP,7000,.15,149,;130,Mozhe,Atkinson,MATKINSO,30-OCT-97,ST_CLERK,2800,,121,50;131,James,Marlow,JAMRLOW,16-FEB-97,ST_CLERK,2500,,121,50;132,TJ,Olson,TJOLSON,10-APR-99,ST_CLERK,2100,,121,50;133,Jason,Mallin,JMALLIN,14-JUN-96,ST_CLERK,3300,,122,50;143,Randall,Matos,RMATOS,15-MAR-98,ST_CLERK,2600,,124,50;144,Peter,Vargas,PVARGAS,09-JUL-98,ST_CLERK,2500,,124,50;149,Eleni,Zlotkey,EZLOTKEY,29-JAN-00,SA_MAN,10500,.2,100,80;176,Jonathon,Taylor,JTAYLOR,24-MAR-98,SA_REP,8600,.2,149,80`.split(';').map((l,i)=>{const f=l.split(','),n=x=>x===''?null:+x;return{_i:i,employee_id:+f[0],first_name:f[1],last_name:f[2],email:f[3],hire_date:PD(f[4]),job_id:f[5],salary:+f[6],commission_pct:n(f[7]),manager_id:n(f[8]),department_id:n(f[9])}});
+const DCOLS=['department_id','department_name','manager_id','location_id'];
+const DEPT=`10,Administration,200,1700;20,Marketing,201,1800;30,Purchasing,114,1700;40,Human Resources,203,2400;50,Shipping,121,1500;60,IT,103,1400;70,Public Relations,204,2700;80,Sales,145,2500;90,Executive,100,1700;100,Finance,108,1700;110,Accounting,205,1700;120,Treasury,,1700;130,Corporate Tax,,1700;140,Control And Credit,,1700;150,Shareholder Services,,1700;160,Benefits,,1700;170,Manufacturing,,1700;180,Construction,,1700;190,Contracting,,1700;200,Operations,,1700;210,IT Support,,1700;220,NOC,,1700;230,IT Helpdesk,,1700;240,Government Sales,,1700;250,Retail Sales,,1700;260,Recruiting,,1700;270,Payroll,,1700`.split(';').map((l,i)=>{const f=l.split(','),n=x=>x===''?null:+x;return{_i:i,department_id:+f[0],department_name:f[1],manager_id:n(f[2]),location_id:+f[3]}});
+let IDS=[],REC=0,BR={},CL={},CN=0,CR=null;
+const B=(k,j,v)=>{if(REC&&CR)BR[k][CR._i]=j;return v};
+const IN=(x,a)=>x!=null&&a.some(y=>x==y);
+const BT=(x,a,b)=>x!=null&&x>=a&&x<=b;
+const LKF=(s,p)=>s!=null&&String(s).LK(p);
+const tx=a=>a.map(t=>t.raw||t.v).join(' ');
+const spl=a=>{const o=[[]];let d=0;a.forEach(t=>{if(t.v=='(')d++;if(t.v==')')d--;t.v==','&&!d?o.push([]):o[o.length-1].push(t)});return o};
+String.prototype.LK=function(p){return new RegExp('^'+String(p).replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/%/g,'.*').replace(/_/g,'.')+'$','s').test(this)};
+const F={nvl:(a,b)=>a==null?b:a,upper:s=>s==null?null:String(s).toUpperCase(),lower:s=>s==null?null:String(s).toLowerCase(),
+lpad:(s,n,p=' ')=>{s=String(s);return s.length>=n?s.slice(0,n):p.repeat(Math.ceil((n-s.length)/p.length)).slice(0,n-s.length)+s},
+rpad:(s,n,p=' ')=>{s=String(s);return s.length>=n?s.slice(0,n):s+p.repeat(Math.ceil((n-s.length)/p.length)).slice(0,n-s.length)},
+replace:(s,a,b='')=>String(s).split(a).join(b),
+round:(x,d=0)=>{const m=10**d;return Math.sign(x)*Math.round(Math.abs(x)*m)/m},trunc:(x,d=0)=>{const m=10**d;return Math.trunc(x*m)/m},
+mod:(a,b)=>b==0?a:a%b,sysdate:()=>new Dt(new Date()),
+add_months:(d,n)=>{const x=d.d,t=new Date(Date.UTC(x.getUTCFullYear(),x.getUTCMonth()+n,1)),dm=new Date(Date.UTC(t.getUTCFullYear(),t.getUTCMonth()+1,0)).getUTCDate();t.setUTCDate(Math.min(x.getUTCDate(),dm));return new Dt(t)},
+months_between:(a,b)=>(a.d.getUTCFullYear()-b.d.getUTCFullYear())*12+a.d.getUTCMonth()-b.d.getUTCMonth()+(a.d.getUTCDate()-b.d.getUTCDate())/31};
+const vals=(G,f)=>G.map(f).filter(x=>x!=null);
+const A={count:(G,f)=>vals(G,f).length,sum:(G,f)=>{const v=vals(G,f);return v.length?v.reduce((a,b)=>a+ +b,0):null},avg:(G,f)=>{const v=vals(G,f);return v.length?v.reduce((a,b)=>a+ +b,0)/v.length:null},
+max:(G,f)=>{const v=vals(G,f);return v.length?v.reduce((a,b)=>b>a?b:a):null},min:(G,f)=>{const v=vals(G,f);return v.length?v.reduce((a,b)=>b<a?b:a):null}};
+const AG=new Set(Object.keys(A));
+const fmt=v=>v==null?'(null)':v instanceof Dt?String(v):typeof v=='number'?String(+v.toPrecision(12)):String(v);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function tok(s){s=s.replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[;\s]+$/,'');const re=/\s*(?:('(?:[^']|'')*')|("[^"]*")|(\d*\.?\d+)|([A-Za-z_][\w$]*)|(\|\||<>|!=|<=|>=|[-+*\/(),=<>%]))/y,t=[];let i=0,m;
+while(i<s.length){re.lastIndex=i;m=re.exec(s);if(!m){if(!s.slice(i).trim())break;throw Error('Karakter/teks tidak dikenali dekat: '+s.slice(i,i+10))}i=re.lastIndex;
+t.push(m[1]?{k:'s',v:m[1]}:m[2]?{k:'q',v:m[2]}:m[3]?{k:'n',v:m[3]}:m[4]?{k:'i',v:m[4].toLowerCase(),raw:m[4]}:{k:'o',v:m[5]})}return t}
+function tp(S,kw){const o=[];let d=0;S.forEach((t,i)=>{if(t.k=='i'&&t.v=='end')d--;if(t.v=='(')d++;if(t.v==')')d--;if(!d&&t.k=='i'&&kw.includes(t.v))o.push(i);if(t.k=='i'&&t.v=='case')d++});return o}
+function eo(T,s){let d=0;for(let k=s;k<T.length;k++){const t=T[k];if(t.v=='(')d++;else if(t.v==')'){if(!d)return k;d--}else if(t.k=='i'){if(t.v=='case')d++;else if(t.v=='end'){if(!d)return k;d--}else if(!d&&['and','or','then','when','else','order','group','having'].includes(t.v))return k}}return T.length}
+function cse(S){const k=++CN;BR[k]={};const w=tp(S,['when','else']);if(!w.length||S[w[0]].v!='when')throw Error('CASE membutuhkan minimal satu WHEN ... THEN');
+const sel=S.slice(0,w[0]),br=[];let ex=null;
+w.forEach((p,a)=>{const seg=S.slice(p+1,a+1<w.length?w[a+1]:S.length);if(S[p].v=='else')ex=seg;else{const q=tp(seg,['then'])[0];if(q==null)throw Error('WHEN membutuhkan THEN');br.push([seg.slice(0,q),seg.slice(q+1)])}});
+const sv='_s'+k;let s=`B(${k},${br.length},${ex?tr(ex):'null'})`;
+CL[k]=br.map(([c])=>'WHEN '+(sel.length?tx(sel)+' = '+tx(c):tx(c))).concat(ex?'ELSE':'ELSE (NULL)');
+for(let j=br.length-1;j>=0;j--)s=`((${sel.length?sv+'=='+tr(br[j][0]):tr(br[j][0])})?B(${k},${j},${tr(br[j][1])}):${s})`;
+return sel.length?`((${sv})=>${s})(${tr(sel)})`:s}
+function dcd(A){if(A.length<3)throw Error('DECODE membutuhkan minimal 3 argumen: DECODE(ekspresi, cari, hasil, ...)');const k=++CN;BR[k]={};const x='_s'+k,n=(A.length-1)>>1,hd=A.length%2==0,lab=[];
+let s=`B(${k},${n},${hd?tr(A[A.length-1]):'null'})`;
+for(let j=n-1;j>=0;j--){s=`(${x}==${tr(A[1+2*j])}?B(${k},${j},${tr(A[2+2*j])}):${s})`;lab[j]=tx(A[0])+' = '+tx(A[1+2*j])}
+lab.push(hd?'DEFAULT':'DEFAULT (NULL)');CL[k]=lab;return `((${x})=>${s})(${tr(A[0])})`}
+function tr(T){let o='',st=[],L=0,ng=0;
+for(let i=0;i<T.length;i++){const t=T[i],n=T[i+1],v=t.v;
+if(t.k=='s'){const x=v.slice(1,-1).replace(/''/g,"'");L=o.length;o+=/^\d{1,2}-[a-z]{3}-\d{2,4}$/i.test(x)?`PD(${JSON.stringify(x)})`:JSON.stringify(x)}
+else if(t.k=='q')throw Error('Teks '+v+' memakai kutip ganda; gunakan kutip tunggal untuk nilai teks (kutip ganda hanya untuk alias)');
+else if(t.k=='n'){L=o.length;o+=v}
+else if(t.k=='i'){
+if(v=='case'){let d=0,j=i;for(;j<T.length;j++){if(T[j].k=='i'&&T[j].v=='case')d++;if(T[j].k=='i'&&T[j].v=='end'&&!--d)break}if(j>=T.length)throw Error('CASE harus diakhiri END');L=o.length;o+=cse(T.slice(i+1,j));i=j}
+else if(v=='decode'&&n&&n.v=='('){let d=0,j=i+1;for(;j<T.length;j++){if(T[j].v=='(')d++;if(T[j].v==')'&&!--d)break}if(j>=T.length)throw Error('Tanda kurung DECODE tidak seimbang');L=o.length;o+=dcd(spl(T.slice(i+2,j)));i=j}
+else if(v=='and'||v=='or')o+=v=='and'?'&&':'||';
+else if(v=='not'){if(n&&['in','between','like'].includes(n.v))ng=1;else o+='!'}
+else if(v=='null'){L=o.length;o+='null'}
+else if(v=='like'){if(!n)throw Error('LIKE membutuhkan pola');const p=tr([n]);i++;o=o.slice(0,L)+(ng?'!':'')+`LKF(${o.slice(L)},${p})`;ng=0}
+else if(v=='in'){if(!n||n.v!='(')throw Error('IN harus diikuti tanda kurung');o=o.slice(0,L)+(ng?'!':'')+'IN('+o.slice(L)+',[';ng=0;i++;st.push({i:1,s:L})}
+else if(v=='between'){const j=eo(T,i+1);if(!T[j]||T[j].v!='and')throw Error('BETWEEN membutuhkan AND');const k=eo(T,j+1);o=o.slice(0,L)+(ng?'!':'')+`BT(${o.slice(L)},${tr(T.slice(i+1,j))},${tr(T.slice(j+1,k))})`;ng=0;i=k-1}
+else if(v=='is'){const g=n&&n.v=='not';i+=g?2:1;if(!(T[i]&&T[i].v=='null'))throw Error('Sintaks IS NULL / IS NOT NULL tidak valid');o+=g?'!=null':'==null'}
+else if(v=='sysdate'||v=='hire_date'){L=o.length;const ref=v=='sysdate'?'F.sysdate()':'r.hire_date';if(n&&(n.v=='+'||n.v=='-')&&T[i+2]&&T[i+2].k=='n'){o+=`DT(${ref},${n.v}${T[i+2].v})`;i+=2}else o+=ref}
+else if(n&&n.v=='('){L=o.length;if(AG.has(v)){o+=`A.${v}(G,r=>(`;st.push({a:1,s:L});i++;if(T[i+1]&&T[i+1].v=='*'){o+='1';i++}}else if(F[v]){o+=`F.${v}(`;st.push({s:L});i++}else throw Error('Fungsi tidak dikenal: '+t.raw)}
+else if(IDS.includes(v)){L=o.length;o+='r.'+v}
+else throw Error('Kolom/nama tidak dikenal: '+t.raw)}
+else{if(v=='('){st.push({s:o.length});o+='('}else if(v==')'){const e=st.pop();if(!e)throw Error('Tanda kurung tidak seimbang');o+=e.a?'))':e.i?'])':')';L=e.s}else o+=v=='='?'==':v=='<>'?'!=':v=='||'?'+""+':v}}
+return o}
+function bare(a){const o=new Set();for(let i=0;i<a.length;i++){const t=a[i];if(t.k=='i'&&AG.has(t.v)&&a[i+1]&&a[i+1].v=='('){i++;let d=0;do{if(a[i].v=='(')d++;if(a[i].v==')')d--;i++}while(d>0&&i<a.length);i--}else if(t.k=='i'&&IDS.includes(t.v))o.add(t.v)}return o}
+function run(sql){try{return run0(sql)}catch(e){if(e instanceof SyntaxError)throw Error('Sintaks SQL tidak valid — periksa tanda kurung, koma, dan operator');throw e}}
+function run0(sql){CN=0;BR={};CL={};REC=0;const T=tok(sql),cl={};let cur=null,d=0;
+for(let i=0;i<T.length;i++){const t=T[i];if(t.v=='(')d++;if(t.v==')')d--;
+if(t.k=='i'&&!d){const k=['select','from','where','having'].includes(t.v)?t.v:(t.v=='group'||t.v=='order')&&T[i+1]&&T[i+1].v=='by'?(i++,t.v):null;if(k){cl[k]=cur=[];continue}}
+if(!cur)throw Error('Query harus diawali dengan SELECT');cur.push(t)}
+if(!cl.select||!cl.select.length||!cl.from)throw Error('Query membutuhkan klausa SELECT dan FROM');
+const tb=cl.from.map(t=>t.v).join('');const TB={...EXTRA,locations:[LOC,LCOLS],employees:[DATA,COLS],departments:[DEPT,DCOLS],dual:[[{_i:0,dummy:'X'}],['dummy']]};if(!TB[tb])throw Error('Tabel "'+tb.toUpperCase()+'" tidak tersedia di simulator (gunakan EMPLOYEES, DEPARTMENTS, atau DUAL)');
+const src=TB[tb][0],cols=TB[tb][1];IDS=[...cols,'dummy'];let sel=cl.select,dis=false;if(sel[0].v=='distinct'){dis=true;sel=sel.slice(1)}
+const split=a=>{const o=[[]];let d=0;a.forEach(t=>{if(t.v=='(')d++;if(t.v==')')d--;t.v==','&&!d?o.push([]):o[o.length-1].push(t)});return o};
+const hasAg=a=>a.some((t,i)=>t.k=='i'&&AG.has(t.v)&&a[i+1]&&a[i+1].v=='(');
+const mk=a=>new Function('r','G',`CR=r;return (${tr(a)})`),items=[];
+split(sel).forEach(it=>{if(it.length==1&&it[0].v=='*'){(tb=='dual'?['dummy']:cols).forEach(c=>items.push({h:c.toUpperCase(),a:[{k:'i',v:c,raw:c}]}));return}
+let a=it.slice(),al=null;const L=a[a.length-1],P=a[a.length-2];
+if(a.length>1&&L.k=='q'){al=L.v.slice(1,-1);a.pop();if(a.length&&a[a.length-1].v=='as')a.pop()}
+else if(a.length>2&&P.v=='as'&&L.k=='i'){al=L.raw;a.length-=2}
+else if(a.length>1&&L.k=='i'&&!IDS.includes(L.v)&&!F[L.v]&&L.v!='sysdate'&&L.v!='end'&&(P.v==')'||P.k!='o')){al=L.raw;a.pop()}
+if(!a.length)throw Error('Ekspresi SELECT kosong (periksa koma)');
+items.push({h:al??a.map(t=>t.raw||t.v).join('').toUpperCase(),a})});
+const fns=[...new Set([...cl.select,...(cl.where||[]),...(cl.having||[])].filter(t=>t.k=='i'&&(F[t.v]||AG.has(t.v)||t.v=='sysdate'||t.v=='case'||t.v=='decode')).map(t=>t.v.toUpperCase()))];
+let rows=src;if(cl.where){if(hasAg(cl.where))throw Error('ORA-00934: fungsi grup tidak diperbolehkan di WHERE — gunakan HAVING');const f=mk(cl.where);rows=src.filter(r=>f(r))}
+const kept=rows.map(r=>r._i),gb=cl.group?split(cl.group):null,isAg=hasAg(cl.select)||!!(cl.having&&hasAg(cl.having));let grp;
+if(gb||isAg){const gc=new Set(gb?gb.flat().filter(t=>t.k=='i'&&IDS.includes(t.v)).map(t=>t.v):[]);
+items.forEach(x=>bare(x.a).forEach(c=>{if(!gc.has(c))throw Error('ORA-00979: bukan ekspresi GROUP BY — kolom "'+c.toUpperCase()+'" harus ada di GROUP BY atau dibungkus fungsi agregat')}));
+if(gb){const kf=gb.map(mk),M=new Map();rows.forEach(r=>{const kv=kf.map(f=>fmt(f(r))),k=JSON.stringify(kv);if(!M.has(k))M.set(k,{rows:[],k:kv.join(', ')});M.get(k).rows.push(r)});grp=[...M.values()]}else grp=[{rows,k:'ALL'}]}
+else grp=rows.map(r=>({rows:[r],k:''}));
+const c0=CN,fs=items.map(x=>mk(x.a)),c1=CN,hv=cl.having&&mk(cl.having);
+let out=grp.map(g=>({g,r:g.rows[0]||{}})).filter(o=>!hv||hv(o.r,o.g.rows));REC=1;out.forEach(o=>o.v=fs.map(f=>f(o.r,o.g.rows)));REC=0;
+if(cl.order){const ob=split(cl.order).map(a=>{let desc=false;const L=a[a.length-1];if(L.v=='desc'||L.v=='asc'){desc=L.v=='desc';a=a.slice(0,-1)}
+if(a.length==1&&a[0].k=='n')return{i:+a[0].v-1,desc};
+const nm=a.length==1?a[0].k=='q'?a[0].v.slice(1,-1):a[0].raw:null,ix=nm==null?-1:items.findIndex(x=>x.h.toUpperCase()==nm.toUpperCase());
+return ix>=0?{i:ix,desc}:{f:mk(a),desc}});
+out.forEach(o=>o.ok=ob.map(b=>b.f?b.f(o.r,o.g.rows):o.v[b.i]));
+out.sort((x,y)=>{for(let j=0;j<ob.length;j++){const a=x.ok[j],b=y.ok[j];if(fmt(a)==fmt(b))continue;const c=a==null?1:b==null?-1:a>b?1:-1;return ob[j].desc?-c:c}return 0})}
+let R=out.map(o=>o.v);if(dis){const s=new Set();R=R.filter(v=>{const k=v.map(fmt).join('\u0001');return s.has(k)?0:(s.add(k),1)})}
+const bm=(c1>c0&&!gb&&!isAg)?c0+1:0,gm={};grp.forEach((g,gi)=>g.rows.forEach(r=>gm[r._i]=gi));if(bm)Object.assign(gm,BR[bm]);
+return{cols:items.map(x=>x.h),rows:R,kept,gm,ng:bm?CL[bm].length:grp.length,gk:bm?CL[bm]:grp.map(g=>g.k),mode:gb?'group':isAg?'agg':bm?'branch':'single',src,tb,fns,ord:!!cl.order,w:!!cl.where}}
+function same(a,b,ord){if(a.cols.length!=b.cols.length||a.rows.length!=b.rows.length)return false;const f=r=>r.map(fmt).join('\u0001'),x=a.rows.map(f),y=b.rows.map(f);if(!ord){x.sort();y.sort()}return x.join('\n')==y.join('\n')}
+function tbl(r){return`<div class="sc"><table><tr>${r.cols.map(c=>'<th>'+esc(c)+'</th>').join('')}</tr>${r.rows.slice(0,40).map(x=>'<tr>'+x.map(v=>'<td>'+esc(fmt(v))+'</td>').join('')+'</tr>').join('')}</table></div><small style="color:var(--m)">${r.rows.length} baris dipilih${r.rows.length>40?' (40 pertama ditampilkan)':''}.</small>`}
+
+
+/* ===== Canvas ===== */
+function sim(cv,res,still,tbn){const c=cv.getContext('2d'),W=760,H=340;cancelAnimationFrame(cv._a);
+const R=res||{kept:[],rows:[],cols:[],mode:'single',ng:1,gm:{},gk:[],fns:[],src:tbn=='departments'?DEPT:DATA,tb:tbn||'employees'},ord={};R.kept.forEach((i,k)=>ord[i]=k);
+const M={x:235,y:46,w:150,h:H-72},nb=Math.max(1,Math.min(R.ng,8)),bh=M.h/nb,t0=performance.now(),sg=R.mode=='single';
+const hm=i=>({x:10+(i%4)*52,y:30+Math.floor(i/4)*38}),cl=(p)=>Math.min(1,Math.max(0,p)),ez=p=>p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+const tg=i=>sg?{x:M.x+M.w/2-12,y:M.y+M.h/2-14}:{x:M.x+M.w/2-12+((ord[i]%4)-1.5)*10,y:M.y+Math.min(R.gm[i]||0,nb-1)*bh+bh/2-8};
+function person(x,y,i,a,g){const e=R.src[i];c.globalAlpha=a;c.fillStyle=g?'#64748b':`hsl(${((e.department_id||0)*37)%360},70%,60%)`;c.beginPath();c.arc(x+12,y+6,5,0,7);c.fill();c.fillRect(x+6,y+12,12,9);c.fillStyle='#cbd5e1';c.font='8px sans-serif';c.fillText((e.first_name||e.department_name||'').slice(0,8),x+1,y+30);c.globalAlpha=1}
+function fr(now){const T=still?0:CT(cv,now);c.fillStyle='#0f172a';c.fillRect(0,0,W,H);c.font='bold 11px sans-serif';c.fillStyle='#94a3b8';c.fillText('TABEL '+R.tb.toUpperCase(),10,16);
+c.strokeStyle='#f97316';c.lineWidth=2;c.strokeRect(M.x,M.y,M.w,M.h);c.fillStyle='#f97316';c.fillText((R.fns.join(' · ')||'SELECT').slice(0,26),M.x,M.y-8);
+if(sg){const cx=M.x+M.w/2,cy=M.y+M.h/2,a=T>1.2&&T<3.6?T*4:0;c.lineWidth=5;c.strokeStyle='#fb923c';for(let k=0;k<8;k++){c.beginPath();c.moveTo(cx+Math.cos(a+k*Math.PI/4)*20,cy+Math.sin(a+k*Math.PI/4)*20);c.lineTo(cx+Math.cos(a+k*Math.PI/4)*30,cy+Math.sin(a+k*Math.PI/4)*30);c.stroke()}c.lineWidth=2;c.beginPath();c.arc(cx,cy,22,0,7);c.stroke();c.fillStyle='#fdba74';c.font='bold 13px sans-serif';c.fillText('f(x)',cx-12,cy+5)}
+else for(let g=0;g<nb;g++){c.lineWidth=1;c.strokeStyle='#334155';c.strokeRect(M.x+6,M.y+g*bh+3,M.w-12,bh-6);c.fillStyle='#94a3b8';c.font='9px monospace';c.fillText((g==7&&R.ng>8?'… +'+(R.ng-7)+' grup':String(R.gk[g]??'')).slice(0,24),M.x+10,M.y+g*bh+13)}
+R.src.forEach((e,i)=>{const h=hm(i),k=ord[i];if(k===undefined){const p=cl((T-.5)/.8);person(h.x,h.y+p*8,i,1-.75*p,p>0)}else{const q=ez(cl((T-1.3-k*.05)/.9)),g=tg(i);if(sg&&q>=1)return;person(h.x+(g.x-h.x)*q,h.y+(g.y-h.y)*q,i,1,0)}});
+const x0=410;c.fillStyle='#1e293b';c.fillRect(x0,28,W-x0-8,H-40);c.font='bold 11px sans-serif';c.fillStyle='#94a3b8';c.fillText(res?'HASIL ('+R.rows.length+' baris)':'HASIL',x0+8,44);
+c.font='10.5px ui-monospace,Consolas,monospace';if(!res){c.fillStyle='#64748b';c.fillText('Tekan ▶ Eksekusi untuk memulai',x0+8,70)}
+else{c.fillStyle='#fb923c';c.fillText(R.cols.join(' | ').slice(0,46),x0+8,62);const n=Math.min(R.rows.length,12,Math.max(0,Math.floor((T-(sg?2.2:2.8))*7)));c.fillStyle='#e2e8f0';for(let j=0;j<n;j++)c.fillText(R.rows[j].map(fmt).join(' | ').slice(0,46),x0+8,80+j*17);if(n>=12&&R.rows.length>12){c.fillStyle='#64748b';c.fillText('… dan '+(R.rows.length-12)+' baris lain',x0+8,80+12*17)}}
+c.font='11px sans-serif';c.fillStyle='#fbbf24';c.fillText(!res?'Menunggu query…':T<1.2?(R.w?'① WHERE menyaring baris (abu-abu = ditolak)':'① FROM membaca semua baris'):T<2.6?'② DBMS menjalankan function '+(sg?'pada tiap baris':R.mode=='branch'?': baris masuk ke cabang yang cocok':'dan mengelompokkan baris'):'③ Hasil dikirim ke client',10,H-8);
+ov(c,cv,T,R);if(!still&&(T<7||cv._ctl.p))cv._a=requestAnimationFrame(fr)}
+cv._fr=fr;cv._R=R;cv._hm=hm;cv._ord=ord;if(still)fr(0);else{const k=cv._ctl;k.t=0;k.l=null;k.p=0;cv._a=requestAnimationFrame(fr)}}
+
+
+const $=s=>document.querySelector(s),TBS={employees:[DATA,COLS],departments:[DEPT,DCOLS],locations:[LOC,LCOLS]};
+const CT=(cv,now)=>{const k=cv._ctl;if(k.l==null)k.l=now;const d=(now-k.l)/1000;k.l=now;if(!k.p)k.t+=d*k.sp;return k.t};
+const kick=cv=>{cancelAnimationFrame(cv._a);cv._fr&&(cv._a=requestAnimationFrame(cv._fr))};
+function ov(c,cv,T,R){const V=(cv._vars||[]).slice(0,5);c.font='bold 10px ui-monospace,Consolas,monospace';
+V.forEach((v,i)=>{const x=118+i*128,hot=T<1.2;c.fillStyle=hot?'#f59e0b':'#334155';c.fillRect(x,3,122,17);c.fillStyle=hot?'#1c1100':'#fbbf24';c.fillText(('&'+v[0]+' = '+v[1]).slice(0,19),x+4,15);
+if(T<1){const p=Math.min(1,T),sx=x+61;c.fillStyle='#fbbf24';c.beginPath();c.arc(sx+(310-sx)*p,20+24*p,4,0,7);c.fill()}});
+if(cv._err){c.fillStyle='rgba(127,29,29,.94)';c.fillRect(410,28,342,300);c.fillStyle='#fecaca';c.font='bold 12px sans-serif';c.fillText('⚠ ERROR — perbaiki query Anda',420,48);c.font='11px sans-serif';c.fillStyle='#fff';(cv._err.match(/.{1,50}(\s|$)/g)||[]).slice(0,10).forEach((l,i)=>c.fillText(l.trim(),420,72+i*16))}
+if(cv._ok!=null&&T>3){c.font='bold 13px sans-serif';c.fillStyle=cv._ok?'#22c55e':'#ef4444';c.fillText(cv._ok?'✅ JAWABAN BENAR':'❌ HASIL BELUM SESUAI',560,332);
+if(cv._ok){const t=T-3;if(t<2.5)for(let k=0;k<48;k++){c.fillStyle='hsl('+(k*47%360)+',85%,60%)';c.fillRect(585+Math.cos(k*2.4)*(30+k*3)*t*.8,300+Math.sin(k*2.4)*(20+k*2)*t*.8-60*t+70*t*t,5,5)}}}
+cv._sl&&(cv._sl.value=Math.min(600,T*100))}
+function hover(cv){cv.onmousemove=e=>{const R=cv._R;if(!R||!cv._tip)return;const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*760/r.width,y=(e.clientY-r.top)*340/r.height;let f=-1;R.src.forEach((s,i)=>{const h=cv._hm(i);if(x>=h.x&&x<=h.x+26&&y>=h.y&&y<=h.y+32)f=i});
+if(f<0){cv._tip.textContent='Arahkan kursor ke ikon baris untuk melihat datanya.';return}const s=R.src[f],k=cv._ord[f];cv._tip.textContent=Object.entries(s).filter(([a])=>a!='_i').slice(0,6).map(([a,b])=>a+' = '+fmt(b)).join(' · ')+(cv._res?(k===undefined?'   ⛔ ditolak':'   ✅ lolos'):'')}}
+/* ===== substitusi + mesin (JOIN, subquery) ===== */
+const names=sql=>[...new Set([...sql.matchAll(/&&?(\w+)/g)].map(m=>m[1]))],subst=(sql,v)=>sql.replace(/&&?(\w+)/g,(m,n)=>'\u0001'+(v[n]??'')+'\u0002'),plain=s=>s.replace(/[\u0001\u0002]/g,'');
+const hl=s=>esc(s).replace(/&amp;(&amp;)?(\w+)/g,'<span class="v">&amp;$1$2</span>'),nw=s=>esc(s).replace(/\u0001/g,'<span class="n">').replace(/\u0002/g,'</span>');
+const lit=v=>v==null?'NULL':typeof v=='number'?String(v):"'"+String(v).replace(/'/g,"''")+"'";
+function run2(sql){let s=sql.trim().replace(/;+\s*$/,'');
+for(let g=0;g<9;g++){const ms=[...s.matchAll(/\(\s*select\b/gi)];if(!ms.length)break;const st=ms[ms.length-1].index;let d=0,e=-1;for(let k=st;k<s.length;k++){if(s[k]=='(')d++;else if(s[k]==')'&&!--d){e=k;break}}if(e<0)throw Error('Tanda kurung subquery tidak seimbang');
+const r=run2(s.slice(st+1,e)),isIn=/\bin\s*$/i.test(s.slice(0,st));s=s.slice(0,st)+(isIn?'('+r.rows.map(x=>lit(x[0])).join(',')+')':lit(r.rows.length?r.rows[0][0]:null))+s.slice(e+1)}
+const m=s.match(/\bfrom\s+([\s\S]*?)(?=\bwhere\b|\bgroup\s+by\b|\border\s+by\b|\bhaving\b|$)/i);if(!m)throw Error('Query membutuhkan klausa SELECT dan FROM');
+const parts=m[1].trim().split(/\b(?:inner\s+)?join\b/i),al={};
+const tp=p=>{const x=p.trim().match(/^(\w+)(?:\s+(?:as\s+)?(?!on\b)(\w+))?/i);if(!x)throw Error('Nama tabel tidak valid pada FROM');const t=x[1].toLowerCase();if(!TBS[t])throw Error('Tabel "'+t.toUpperCase()+'" tidak tersedia di simulator (gunakan EMPLOYEES, DEPARTMENTS, LOCATIONS)');return[t,(x[2]||t).toLowerCase()]};
+const [t0,a0]=tp(parts[0]);al[a0]=t0;al[t0]=t0;
+if(parts.length>1){let cb=TBS[t0][0].map(r=>({[a0]:r})),cols=[...TBS[t0][1]];
+for(let k=1;k<parts.length;k++){const on=parts[k].split(/\bon\b/i);if(on.length<2)throw Error('JOIN membutuhkan klausa ON');const [t,a]=tp(on[0]);al[a]=t;al[t]=t;
+const pr=[...on[1].matchAll(/(\w+)\.(\w+)\s*=\s*(\w+)\.(\w+)/g)];if(!pr.length)throw Error('Kondisi ON harus berbentuk a.kolom = b.kolom');
+const nb=[];cb.forEach(c=>TBS[t][0].forEach(r=>{const x={...c,[a]:r};if(pr.every(p=>{const A=x[p[1].toLowerCase()],B=x[p[3].toLowerCase()];return A&&B&&A[p[2].toLowerCase()]!=null&&A[p[2].toLowerCase()]==B[p[4].toLowerCase()]}))nb.push(x)}));cb=nb;TBS[t][1].forEach(c=>cols.includes(c)||cols.push(c))}
+EXTRA.__j=[cb.map((x,i)=>Object.assign({},...Object.values(x).reverse(),{_i:i})),cols]}
+s=s.replace(m[1],parts.length>1?' __j ':' '+t0+' ').replace(/\b(\w+)\.(\w+)\b/g,(q,a,c)=>al[a.toLowerCase()]?c:q);
+const r=run(s);if(parts.length>1)r.tb='JOIN '+[...new Set(Object.values(al))].map(x=>x.slice(0,3).toUpperCase()).join('+');return r}
+/* ===== UI ===== */
+function inputs(host,sql,def){const o={};host.querySelectorAll('input').forEach(i=>o[i.dataset.k]=i.value);const n=names(sql);host.innerHTML=n.length?'<div class="dlg"><b>ENTER SUBSTITUTION VARIABLE</b>'+n.map((k,i)=>'<label>'+esc(k)+'<input data-k="'+esc(k)+'" value="'+esc(o[k]??def[i]??'')+'" autocomplete="off" spellcheck="false"></label>').join('')+'</div>':''}
+const getv=h=>{const v=[],o={};h.querySelectorAll('input').forEach(i=>{o[i.dataset.k]=i.value;v.push(i.value)});return{o,v}};
+function locate(s,msg){const m=msg.match(/"([^"]+)"/)||msg.match(/: ([^:]+)$/);if(!m)return null;const t=m[1].trim(),i=s.toLowerCase().indexOf(t.toLowerCase());return t&&i>=0?[i,t.length]:null}
+function errBox(s,e,o){const L=locate(s,e.message);let h='<div class="msg bad">❌ '+esc(e.message)+'</div>',tk='';
+if(L){tk=s.substr(L[0],L[1]);h+='<small>Bagian bermasalah — baris '+(s.slice(0,L[0]).split('\n').length)+':</small><pre>'+esc(s.slice(0,L[0]))+'<mark>'+esc(tk)+'</mark>'+esc(s.slice(L[0]+L[1]))+'</pre>'}
+const txt=Object.values(o).some(x=>x&&isNaN(x)&&x.toLowerCase()==tk.toLowerCase());
+h+='<div class="box">💡 '+(txt?'Nilai teks harus diapit kutip tunggal, mis. <code>\'&amp;nama\'</code>.':/kutip ganda/.test(e.message)?'Gunakan kutip tunggal untuk nilai teks.':/tidak dikenal|dikenali/.test(e.message)?'Periksa ejaan kolom/tabel, tanda baca, dan kutip pada nilai teks.':'Periksa kembali sintaks pada bagian yang ditandai, lalu jalankan lagi.')+'</div>';return h}
+const diag=(a,b)=>{const f=r=>r.map(fmt).join('\u0001'),x=a.rows.map(f),y=b.rows.map(f);if(a.cols.length!=b.cols.length)return'jumlah kolom '+a.cols.length+', seharusnya '+b.cols.length+'. Periksa daftar kolom pada SELECT.';const ys=[...y];let ex=0;x.forEach(r=>{const k=ys.indexOf(r);k<0?ex++:ys.splice(k,1)});
+return ex?ex+' baris tidak seharusnya muncul (Anda '+x.length+' baris, seharusnya '+y.length+'). Periksa kondisi WHERE / pola LIKE.':ys.length?'kurang '+ys.length+' baris yang seharusnya muncul. Periksa kondisi WHERE.':'baris sudah tepat tetapi urutannya berbeda. Periksa ORDER BY.'};
+function lab(h,cfg){h.innerHTML='<span class="tag">'+cfg.tag+'</span> <b>'+esc(cfg.title)+'</b><p>'+(cfg.text||'')+'</p>'+(cfg.story?'<div class="story">'+esc(cfg.story)+'</div>':'')+'<textarea rows="'+(cfg.sql&&cfg.sql.includes('\n')?7:5)+'" spellcheck="false" placeholder="Tulis query SQL dengan substitution variable (&nama) …"></textarea><div class="iv"></div><button class="pri">▶ Jalankan</button><div class="ctl"><button class="sec" data-a="p">⏸ Jeda</button><button class="sec" data-a="r">⟲ Ulang</button>Kecepatan <select><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>Waktu <input type="range" min="0" max="600" value="0"></div><canvas width="760" height="340"></canvas><div class="tip">Arahkan kursor ke ikon baris untuk melihat datanya.</div><div class="out"></div>';
+const ta=h.querySelector('textarea'),iv=h.querySelector('.iv'),cv=h.querySelector('canvas'),out=h.querySelector('.out'),pb=h.querySelector('[data-a=p]'),sl=h.querySelector('input[type=range]');
+ta.value=cfg.sql||'';cv._ctl={sp:1,p:0,t:0,l:null};cv._tip=h.querySelector('.tip');cv._sl=sl;const sync=()=>inputs(iv,ta.value,cfg.vals||[]);ta.oninput=()=>{sync();cfg.save&&cfg.save(ta.value)};sync();sim(cv,null,1,'employees');hover(cv);
+pb.onclick=()=>{const k=cv._ctl;k.p=!k.p;pb.textContent=k.p?'▶ Lanjut':'⏸ Jeda';k.l=null;kick(cv)};
+h.querySelector('[data-a=r]').onclick=()=>{const k=cv._ctl;k.t=0;k.l=null;k.p=0;pb.textContent='⏸ Jeda';kick(cv)};
+h.querySelector('select').onchange=e=>cv._ctl.sp=+e.target.value;sl.oninput=()=>{const k=cv._ctl;k.t=sl.value/100;k.l=null;kick(cv)};
+const go=()=>{const {o,v}=getv(iv),sq=ta.value;cv._vars=names(sq).map(k=>[k,o[k]]);cv._err=null;cv._ok=null;cv._res=0;pb.textContent='⏸ Jeda';
+if(!sq.trim()){out.innerHTML='<div class="msg bad">Tulis query dulu.</div>';return}
+const s=plain(subst(sq,o));let r;
+try{r=run2(s)}catch(e){cv._err=e.message;sim(cv,null,1,'employees');out.innerHTML=errBox(s,e,o);cfg.done&&cfg.done(2);return}
+let ok=null,msg='';
+if(cfg.ref){const rn=names(cfg.ref),n=names(sq);
+if(!n.length)msg='soal ini wajib memakai substitution variable (&nama).';else if(n.length!=rn.length)msg='soal ini memerlukan '+rn.length+' variabel &, query Anda memakai '+n.length+'.';
+else{const rv={};rn.forEach((k,i)=>rv[k]=v[i]);const b=run2(plain(subst(cfg.ref,rv)));ok=same(r,b,cfg.ord);if(!ok)msg=diag(r,b)}
+cv._ok=ok?1:0;ok=!!ok}
+cv._res=1;sim(cv,r);
+out.innerHTML=(cfg.ref?(ok?'<div class="msg ok">✅ Jawaban BENAR! Hasil query Anda sesuai yang diminta soal.</div>':'<div class="msg bad">❌ Query berjalan, tetapi hasil belum sesuai: '+esc(msg)+'</div>'):'<div class="msg ok">▶ Query berhasil dijalankan.</div>')+'<b>Setelah substitusi (new):</b><pre>'+nw(subst(sq,o))+';</pre>'+tbl(r);
+cfg.done&&cfg.ref&&cfg.done(ok?1:2)};
+h.querySelector('.pri').onclick=go;iv.addEventListener('keydown',e=>e.key=='Enter'&&go())}
+function pager(root,list,mk,sc){const ch=document.createElement('div'),body=document.createElement('div'),st=[],tx=document.createElement('div');tx.className='score';ch.className='chips';root.append(tx,ch,body);
+const upd=()=>tx.textContent=sc(st.filter(x=>x==1).length);
+list.forEach((q,i)=>{const b=document.createElement('button');b.className='chip';b.textContent=i+1;b.onclick=()=>go(i);ch.append(b)});
+function go(i){[...ch.children].forEach((b,j)=>b.classList.toggle('on',j==i));const d=document.createElement('div');d.className='card';body.replaceChildren(d);
+lab(d,{...mk(list[i],i),done:r=>{if(st[i]!=1)st[i]=r;const b=ch.children[i];b.classList.toggle('ok',st[i]==1);b.classList.toggle('bad',st[i]==2);upd()}})}
+upd();go(0)}
+const EP=[
+['Cari ID karyawan','Bos: “Saya cuma ingat ID-nya. Kalau saya minta ID lain, jangan ubah SQL-nya ya.” Bima: pakai substitution variable!','SELECT employee_id, last_name, salary, department_id\nFROM employees\nWHERE employee_id = &id_karyawan;',['101']],
+['Gaji di atas angka tertentu','Query lama memakai angka tetap (salary > 5000). Sekarang bos menentukan angkanya sendiri.','SELECT employee_id, last_name, salary, department_id\nFROM employees\nWHERE salary > &gaji;',['10000']],
+['Gaji di antara dua angka','Siapa yang middle class dan siapa yang financial freedom? Dua batas = dua variabel.','SELECT * FROM employees\nWHERE salary BETWEEN &nilaimin AND &nilaimax;',['5000','9000']],
+['Bawahan dua manajer','Bos ingin memasukkan ID manajer sendiri; Bima memakai IN dengan dua variabel.','SELECT * FROM employees\nWHERE manager_id IN (&man1, &man2);',['100','108']],
+['Berdasarkan job_id (teks)','Nilai teks diapit kutip tunggal. Coba IT_PROG, SA_REP, PU_CLERK. Hapus kutipnya untuk melihat error!','SELECT last_name, department_id, salary, job_id\nFROM employees\nWHERE job_id = \'&jab_kerja\';',['IT_PROG']],
+['Nama depan berawalan huruf','Pola LIKE + wildcard: huruf diisi pengguna, % menyusul.','SELECT * FROM employees\nWHERE first_name LIKE \'&hurufnya%\';',['A']],
+['Dua kriteria sekaligus (HRD)','Gaji ≥ nilai tertentu DAN nama depan mengandung huruf tertentu di mana saja.','SELECT * FROM employees\nWHERE salary >= &gaji\nAND first_name LIKE \'%&hurufnya%\';',['1000','d']],
+['Nama kolom sebagai variabel','Bos belum tahu mau kolom apa; nama kolom pun bisa jadi variabel (tanpa kutip).','SELECT last_name, &kolom1, &kolom2\nFROM employees\nWHERE salary > 2000;',['job_id','salary']],
+['Seluruh kondisi WHERE','Kadang salary > 5000, kadang department_id = 60, kadang job_id LIKE ’IT%’.','SELECT last_name, salary, job_id\nFROM employees\nWHERE &kondisi;',['salary > 2000']],
+['Bersama JOIN','Nama departemen ada di DEPARTMENTS, nama karyawan di EMPLOYEES; dihubungkan DEPARTMENT_ID.','SELECT e.first_name, e.last_name, d.department_name\nFROM employees e\nJOIN departments d\nON e.department_id = d.department_id\nWHERE d.department_id = &dept_id;',['60']]];
+pager($('#sim'),EP,(e,i)=>({tag:'Episode '+(i+1),title:e[0],story:e[1],sql:e[2],vals:e[3]}),()=>'Kisah Bima, DBA magang PT Santuy Digital Nusantara · 10 episode. Ubah nilai/query lalu ▶ Jalankan, amati alur data di canvas.');
+const Q=[["Cari karyawan berdasarkan ID", "Tampilkan employee_id, last_name, salary, department_id untuk karyawan yang ID-nya diinput pengguna.", ["101"], "U0VMRUNUIGVtcGxveWVlX2lkLCBsYXN0X25hbWUsIHNhbGFyeSwgZGVwYXJ0bWVudF9pZCBGUk9NIGVtcGxveWVlcyBXSEVSRSBlbXBsb3llZV9pZCA9ICZpZA==", 0], ["Gaji di atas batas", "Tampilkan employee_id, last_name, salary karyawan dengan gaji lebih besar dari nilai yang diinput.", ["10000"], "U0VMRUNUIGVtcGxveWVlX2lkLCBsYXN0X25hbWUsIHNhbGFyeSBGUk9NIGVtcGxveWVlcyBXSEVSRSBzYWxhcnkgPiAmZw==", 0], ["Gaji kurang dari atau sama dengan", "Tampilkan last_name dan salary karyawan yang gajinya kurang dari atau sama dengan nilai input.", ["3500"], "U0VMRUNUIGxhc3RfbmFtZSwgc2FsYXJ5IEZST00gZW1wbG95ZWVzIFdIRVJFIHNhbGFyeSA8PSAmZw==", 0], ["Gaji di antara dua angka", "Tampilkan semua kolom karyawan dengan gaji di antara dua angka (batas bawah dan batas atas) yang diinput.", ["5000", "8000"], "U0VMRUNUICogRlJPTSBlbXBsb3llZXMgV0hFUkUgc2FsYXJ5IEJFVFdFRU4gJmEgQU5EICZi", 0], ["Karyawan per departemen", "Tampilkan last_name, job_id, salary karyawan pada department_id yang diinput.", ["50"], "U0VMRUNUIGxhc3RfbmFtZSwgam9iX2lkLCBzYWxhcnkgRlJPTSBlbXBsb3llZXMgV0hFUkUgZGVwYXJ0bWVudF9pZCA9ICZk", 0], ["Bawahan dua manajer", "Tampilkan semua kolom karyawan yang manager_id-nya salah satu dari dua ID manajer yang diinput (gunakan IN).", ["100", "108"], "U0VMRUNUICogRlJPTSBlbXBsb3llZXMgV0hFUkUgbWFuYWdlcl9pZCBJTiAoJm0xLCAmbTIp", 0], ["Filter job_id (teks)", "Tampilkan last_name, department_id, salary, job_id untuk job_id yang diinput. Ingat: nilai teks diapit kutip tunggal.", ["IT_PROG"], "U0VMRUNUIGxhc3RfbmFtZSwgZGVwYXJ0bWVudF9pZCwgc2FsYXJ5LCBqb2JfaWQgRlJPTSBlbXBsb3llZXMgV0hFUkUgam9iX2lkID0gJyZqJw==", 0], ["Dua job sekaligus", "Tampilkan last_name dan job_id karyawan yang job_id-nya salah satu dari dua nilai teks yang diinput (IN).", ["SA_REP", "PU_CLERK"], "U0VMRUNUIGxhc3RfbmFtZSwgam9iX2lkIEZST00gZW1wbG95ZWVzIFdIRVJFIGpvYl9pZCBJTiAoJyZqMScsICcmajInKQ==", 0], ["Nama depan diawali huruf", "Tampilkan first_name dan last_name karyawan yang nama depannya diawali huruf yang diinput.", ["S"], "U0VMRUNUIGZpcnN0X25hbWUsIGxhc3RfbmFtZSBGUk9NIGVtcGxveWVlcyBXSEVSRSBmaXJzdF9uYW1lIExJS0UgJyZoJSc=", 0], ["Nama depan diakhiri huruf", "Tampilkan first_name dan last_name karyawan yang nama depannya diakhiri huruf yang diinput.", ["n"], "U0VMRUNUIGZpcnN0X25hbWUsIGxhc3RfbmFtZSBGUk9NIGVtcGxveWVlcyBXSEVSRSBmaXJzdF9uYW1lIExJS0UgJyUmaCc=", 0], ["Nama belakang mengandung huruf", "Buat query yang menerima 1 huruf dan menampilkan ID Karyawan, Nama Belakang, Gaji karyawan dengan Nama Belakang yang mengandung huruf tersebut.", ["a"], "U0VMRUNUIGVtcGxveWVlX2lkLCBsYXN0X25hbWUsIHNhbGFyeSBGUk9NIGVtcGxveWVlcyBXSEVSRSBsYXN0X25hbWUgTElLRSAnJSZodXJ1ZiUn", 0], ["Gaji dan huruf nama depan", "Tampilkan semua kolom karyawan dengan gaji lebih besar atau sama dengan nilai input DAN nama depan mengandung huruf yang diinput di mana saja.", ["6000", "d"], "U0VMRUNUICogRlJPTSBlbXBsb3llZXMgV0hFUkUgc2FsYXJ5ID49ICZnIEFORCBmaXJzdF9uYW1lIExJS0UgJyUmaCUn", 0], ["Rentang department_id", "Tampilkan LAST_NAME, DEPARTMENT_ID, SALARY karyawan dengan DEPARTMENT_ID di antara dua nilai yang diinputkan pengguna.", ["50", "90"], "U0VMRUNUIGxhc3RfbmFtZSwgZGVwYXJ0bWVudF9pZCwgc2FsYXJ5IEZST00gZW1wbG95ZWVzIFdIRVJFIGRlcGFydG1lbnRfaWQgQkVUV0VFTiAmbjEgQU5EICZuMg==", 0], ["Kolom dinamis", "Tampilkan last_name ditambah dua kolom lain yang namanya diinput pengguna, untuk karyawan bergaji di atas 2000.", ["job_id", "salary"], "U0VMRUNUIGxhc3RfbmFtZSwgJmsxLCAmazIgRlJPTSBlbXBsb3llZXMgV0hFUkUgc2FsYXJ5ID4gMjAwMA==", 0], ["Urutan dinamis", "Tampilkan last_name dan salary semua karyawan, diurutkan menurun berdasarkan kolom yang namanya diinput pengguna.", ["salary"], "U0VMRUNUIGxhc3RfbmFtZSwgc2FsYXJ5IEZST00gZW1wbG95ZWVzIE9SREVSIEJZICZrIERFU0M=", 1], ["Seluruh kondisi WHERE dinamis", "Tampilkan last_name, salary, job_id dengan kondisi WHERE yang sepenuhnya diketik pengguna saat query dijalankan.", ["department_id = 60"], "U0VMRUNUIGxhc3RfbmFtZSwgc2FsYXJ5LCBqb2JfaWQgRlJPTSBlbXBsb3llZXMgV0hFUkUgJmtvbmRpc2k=", 0], ["Dua departemen dan batas gaji", "Tampilkan last_name, department_id, salary karyawan yang bekerja di salah satu dari dua departemen (ID diinput) dan bergaji lebih besar atau sama dengan nilai input. Perhatikan tanda kurung untuk OR/AND.", ["50", "60", "5000"], "U0VMRUNUIGxhc3RfbmFtZSwgZGVwYXJ0bWVudF9pZCwgc2FsYXJ5IEZST00gZW1wbG95ZWVzIFdIRVJFIChkZXBhcnRtZW50X2lkID0gJmQxIE9SIGRlcGFydG1lbnRfaWQgPSAmZDIpIEFORCBzYWxhcnkgPj0gJmc=", 0], ["JOIN: nama departemen", "Gabungkan employees dan departments; tampilkan first_name, last_name, department_name untuk department_id yang diinput.", ["60"], "U0VMRUNUIGUuZmlyc3RfbmFtZSwgZS5sYXN0X25hbWUsIGQuZGVwYXJ0bWVudF9uYW1lIEZST00gZW1wbG95ZWVzIGUgSk9JTiBkZXBhcnRtZW50cyBkIE9OIGUuZGVwYXJ0bWVudF9pZCA9IGQuZGVwYXJ0bWVudF9pZCBXSEVSRSBkLmRlcGFydG1lbnRfaWQgPSAmaWQ=", 0], ["JOIN tiga tabel: kota", "Sebagai DBA, tampilkan first_name, last_name, department_name, city karyawan yang bekerja di kota yang diinput (mis. Seattle atau Toronto) tanpa mengubah kode SQL.", ["Seattle"], "U0VMRUNUIGUuZmlyc3RfbmFtZSwgZS5sYXN0X25hbWUsIGQuZGVwYXJ0bWVudF9uYW1lLCBsLmNpdHkgRlJPTSBlbXBsb3llZXMgZSBKT0lOIGRlcGFydG1lbnRzIGQgT04gZS5kZXBhcnRtZW50X2lkID0gZC5kZXBhcnRtZW50X2lkIEpPSU4gbG9jYXRpb25zIGwgT04gZC5sb2NhdGlvbl9pZCA9IGwubG9jYXRpb25faWQgV0hFUkUgbC5jaXR5ID0gJyZuYW1hX2tvdGEn", 0], ["Subquery: di atas rata-rata departemen", "Tampilkan first_name, last_name, salary, department_id karyawan yang gajinya lebih tinggi dari rata-rata gaji departemen yang namanya diinput pengguna.", ["IT"], "U0VMRUNUIGZpcnN0X25hbWUsIGxhc3RfbmFtZSwgc2FsYXJ5LCBkZXBhcnRtZW50X2lkIEZST00gZW1wbG95ZWVzIFdIRVJFIHNhbGFyeSA+IChTRUxFQ1QgQVZHKHNhbGFyeSkgRlJPTSBlbXBsb3llZXMgV0hFUkUgZGVwYXJ0bWVudF9pZCA9IChTRUxFQ1QgZGVwYXJ0bWVudF9pZCBGUk9NIGRlcGFydG1lbnRzIFdIRVJFIGRlcGFydG1lbnRfbmFtZSA9ICcmbmFtYV9kZXBhcnRlbWVuJykp", 0]],dr=[];
+pager($('#latihan'),Q,(q,i)=>({tag:'Soal '+(i+1),title:q[0],text:esc(q[1])+' <i>Nilai uji: '+q[2].map(esc).join(', ')+'</i>',sql:dr[i]||'',vals:q[2],ref:atob(q[3]),ord:q[4],save:t=>dr[i]=t}),n=>'Live coding mandiri · benar: '+n+' / '+Q.length+' soal. Tulis SQL dengan variabel &, jalankan, dan perbaiki jika ada error.');
+const lq=$('#lq'),lv=$('#lv'),lo=$('#lo');let cur='';const sync=()=>{if(lq.value!==cur){cur=lq.value;inputs(lv,cur,[])}};lq.oninput=sync;sync();
+$('#lb').onclick=()=>{sync();const {o}=getv(lv),n=names(lq.value),miss=n.filter(k=>o[k]==='');let h=(miss.length?'<div class="msg bad">⚠ Variabel kosong: '+esc(miss.join(', '))+'</div>':'')+'<b>old:</b><pre>'+hl(lq.value)+'</pre><b>new:</b><pre>'+nw(subst(lq.value,o))+';</pre>';try{h+=tbl(run2(plain(subst(lq.value,o))))}catch(e){h+='<div class="msg bad">❌ '+esc(e.message)+'</div>'}lo.innerHTML=h};
+$('#lc').onclick=async()=>{const t=plain(subst(lq.value,getv(lv).o))+';';try{await navigator.clipboard.writeText(t);lo.insertAdjacentHTML('afterbegin','<div class="msg ok">Tersalin ✔</div>')}catch(e){lo.insertAdjacentHTML('afterbegin','<div class="msg bad">Salin tidak didukung di sini.</div>')}};
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x==b));['teori','sim','lab','latihan'].forEach(t=>$('#'+t).classList.toggle('hide',t!=b.dataset.t));scrollTo(0,0)});
+
+</script>
+</body>
+</html>
